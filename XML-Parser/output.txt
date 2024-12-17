@@ -1,0 +1,45 @@
+===META===
+{
+    "description": "Created a Go Hello World application with multiple file references.",
+    "git_commit_message": "Add Go Hello World application demonstrating multi-file references."
+}
+===XML===
+<?xml version="1.0" encoding="UTF-8"?>
+<files>
+    <file operation="DELETE" language="Go" path="main1.go">
+        <change_summary>Main entry point for the Hello World application.</change_summary>
+        <content>
+package main
+
+import (
+    "fmt"
+    "example.com/util"
+)
+
+func main() {
+    fmt.Println("Hello from main!")
+    util.SayHello()
+}
+        </content>
+    </file>
+    <file operation="DELETE" language="Go" path="util/utility.go">
+        <change_summary>Utility package providing additional functions for the application.</change_summary>
+        <content>
+package util
+
+import "fmt"
+
+func SayHello() {
+    fmt.Println("Hello from utility!")
+}
+        </content>
+    </file>
+    <file operation="DELETE" language="Go" path="go1.mod">
+        <change_summary>Go module definition file for dependency management.</change_summary>
+        <content>
+module example.com
+
+go 1.20
+        </content>
+    </file>
+</files>

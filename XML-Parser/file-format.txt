@@ -1,0 +1,74 @@
+Your response will consist of the following structure. 
+
+There will be a metadata section, that starts with "===META==="
+
+This will contain a json code with the following definition 
+
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Code Update Metadata",
+    "type": "object",
+    "required": ["description", "git_commit_message"],
+    "properties": {
+      "description": {
+        "type": "string",
+        "description": "Brief description of the update."
+      },
+      "git_commit_message": {
+        "type": "string",
+        "description": "Commit message for version control."
+      }
+    },
+    "additionalProperties": false
+  }
+
+Secondly there will be an XML section, that contains the complete file of all files changed. Do not include partial files. 
+
+The XML section will start with "===XML===" 
+
+this is the Schema for the XML section 
+
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <!-- Root Element -->
+  <xs:element name="files">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="file" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <!-- Change Summary (Required) -->
+              <xs:element name="change_summary" type="xs:string"/>
+              
+              <!-- Content Element (Conditionally Required) -->
+              <xs:element name="content" minOccurs="0">
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:string">
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            
+            <!-- Attributes -->
+            <xs:attribute name="operation" type="OperationType" use="required"/>
+            <xs:attribute name="language" type="xs:string" use="required"/>
+            <xs:attribute name="path" type="xs:string" use="required"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- Enumeration for Operation Types -->
+  <xs:simpleType name="OperationType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="CREATE"/>
+      <xs:enumeration value="UPDATE"/>
+      <xs:enumeration value="DELETE"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>
